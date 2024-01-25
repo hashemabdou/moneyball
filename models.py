@@ -1,4 +1,4 @@
-from app import db
+from extensions import db
 from flask_login import UserMixin
 from datetime import datetime
 
@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
 
 class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    round_id = db.Column(db.Integer, db.ForeignKey('round.id'))  # Foreign key
     home_team = db.Column(db.String(100), nullable=False)
     away_team = db.Column(db.String(100), nullable=False)
     game_date = db.Column(db.DateTime, nullable=False)
@@ -23,6 +24,12 @@ class Pick(db.Model):
     round = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'), nullable=False)
-    status = db.Column(db.String(50), nullable=False)  # Alive, Eliminated
+    status = db.Column(db.String(50), nullable=False)  # Alive, Eliminated, Winner
 
-db.create_all()
+class Round(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    games = db.relationship('Game', backref='round', lazy=True)
+    is_active = db.Column(db.Boolean, default=True)

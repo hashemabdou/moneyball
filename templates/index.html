@@ -1,6 +1,30 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to Moneyball</h1>
-    <!-- Leaderboard will be included here -->
+    <h1 class="text-center my-4">Welcome to Moneyball</h1>
+    <div class="leaderboard">
+        <h2 class="text-center">Leaderboard</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Wins</th>
+                    <th>Total Winnings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for winner in winners %}
+                    <tr>
+                        <td>{{ winner.username }}</td>
+                        <td>{{ winner.wins }}</td>
+                        <td>{{ winner.total_winnings }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">No winners yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

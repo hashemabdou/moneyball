@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center my-4">Admin Dashboard</h2>
+    <div class="admin-actions">
+        <h3>Manage Games</h3>
+        <!-- Add functionality to create, edit, or delete games -->
+        <!-- Example: Link to a page to add a new game -->
+        <a href="{{ url_for('new_game') }}" class="btn btn-primary">Add New Game</a>
+
+        <h3>Current Round Information</h3>
+        <!-- Display information about the current round -->
+        <p>Round Number: {{ current_round.number }}</p>
+        <p>Start Date: {{ current_round.start_date }}</p>
+        <p>End Date: {{ current_round.end_date }}</p>
+
+        <h3>All User Picks</h3>
+        <!-- Display a list or table of all user picks -->
+        {% for pick in all_picks %}
+            <p>User: {{ pick.user.username }}, Pick: {{ pick.team }}, Round: {{ pick.round }}</p>
+        {% else %}
+            <p>No picks available.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

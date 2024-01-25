@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center my-4">User Dashboard</h2>
+    <div class="user-info">
+        <h3>Your Current Picks</h3>
+        <!-- Display user's current picks -->
+        {% for pick in current_picks %}
+            <p>{{ pick.team }} (Round: {{ pick.round }})</p>
+        {% else %}
+            <p>No current picks.</p>
+        {% endfor %}
+
+        <h3>Previous Round Performance</h3>
+        <p>{{ previous_performance }}</p>
+
+        <h3>Total All-Time Winnings</h3>
+        <p>{{ total_winnings }}</p>
+
+        <h3>Progress This Round</h3>
+        <p>{{ progress_this_round }}</p>
+    </div>
+{% endblock %}

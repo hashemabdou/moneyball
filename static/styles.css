@@ -1,16 +1,35 @@
-/* Add CSS styles for the modern, soccer-themed design */
 body {
     font-family: Arial, sans-serif;
 }
 
-nav ul {
-    list-style-type: none;
-    padding: 0;
+.navbar {
+    margin-bottom: 20px;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 10px;
+.container {
+    width: 80%;
+    margin: auto;
 }
 
-/* Additional styles will be added here */
+h1, h2, h3 {
+    color: #333;
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-control-label {
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}

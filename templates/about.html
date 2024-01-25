@@ -1,6 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>About Moneyball</h2>
-    <p>The rules of the game are as follows: ...</p>
+    <h2 class="text-center my-4">About Moneyball</h2>
+    <div class="rules">
+        <h3>Game Rules</h3>
+        <ul>
+            <li>Each player gets to make 2 picks per round.</li>
+            <li>Every round, players choose two English Premier League soccer teams that are currently playing.</li>
+            <li>If your chosen team wins, your pick stays alive. If your team draws or loses, your pick is eliminated.</li>
+            <li>If your pick stays alive, you get to submit a new pick of a different team for the next round. You cannot pick the same team twice in any given round.</li>
+            <li>The game continues for as many game weeks as it takes until there is only one pick left alive.</li>
+            <li>To enter, each player must pay for their pick, which is entered into the pot.</li>
+            <li>The game is winner-takes-all.</li>
+            <li>Once the admin closes the registration for a new round, the players entered cannot change.</li>
+            <li>An overview summary table of every pick and which team they picked that round is automatically generated once the admin closes the registration for a new round.</li>
+        </ul>
+    </div>
 {% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="text-center my-4">Leaderboard</h2>
+    <div class="leaderboard">
+        <h3>Past Winners</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Wins</th>
+                    <th>Total Winnings</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for winner in winners %}
+                    <tr>
+                        <td>{{ winner.username }}</td>
+                        <td>{{ winner.wins }}</td>
+                        <td>{{ winner.total_winnings }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">No winners yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
