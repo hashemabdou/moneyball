@@ -1,0 +1,16 @@
+/* Add CSS styles for the modern, soccer-themed design */
+body {
+    font-family: Arial, sans-serif;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+/* Additional styles will be added here */
