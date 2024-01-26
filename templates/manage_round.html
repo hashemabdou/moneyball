@@ -1,0 +1,49 @@
+<!-- manage_round.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage Round: {{ round.name }}</h2>
+
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div id="games">
+        {% for game_form in form.games %}
+        <div class="game-form">
+            {{ game_form.home_team.label }} {{ game_form.home_team }}
+            {{ game_form.away_team.label }} {{ game_form.away_team }}
+            {{ game_form.game_date.label }} {{ game_form.game_date }}
+            <button type="button" class="remove-game">Remove</button>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-game">+</button>
+    {{ form.submit }}
+</form>
+
+<!-- Display the list of games added to this round -->
+<h3>Games in This Round</h3>
+<ul>
+    {% for game in games_in_round %}
+    <li>{{ game.home_team }} vs {{ game.away_team }} on {{ game.game_date.strftime('%Y-%m-%d') }}</li>
+    {% endfor %}
+</ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('add-game').addEventListener('click', function() {
+            var container = document.getElementById('games');
+            var newGameForm = container.firstElementChild.cloneNode(true);
+            newGameForm.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+            });
+            container.appendChild(newGameForm);
+        });
+
+        document.getElementById('games').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-game')) {
+                e.target.parentNode.remove();
+            }
+        });
+    });
+</script>
+{% endblock %}

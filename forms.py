@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationError
+from wtforms.fields import FieldList, FormField
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -40,10 +41,14 @@ class PickForm(FlaskForm):
         self.pick.choices = games
 
 class NewRoundForm(FlaskForm):
-    game_date = DateField('Game Date', validators=[DataRequired()])
+    name = StringField('Round Name', validators=[DataRequired()])
+    submit = SubmitField('Start New Round')
+
+class GameForm(FlaskForm):
     home_team = StringField('Home Team', validators=[DataRequired()])
     away_team = StringField('Away Team', validators=[DataRequired()])
-    submit = SubmitField('Create Game')
+    game_date = DateField('Game Date', validators=[DataRequired()])
 
-
-
+class GamesForm(FlaskForm):
+    games = FieldList(FormField(GameForm), min_entries=1)
+    submit = SubmitField('Add Games')

@@ -5,6 +5,14 @@ To do:
 - underline page you're on in navbar
 - better looking
 
+- fix user dashboard error
+- allow admin to delete/rename round
+- flow after round is created
+
+later:
+- figure out leaderboard sitch
+- say hello, name when logged in 
+
 
 
 

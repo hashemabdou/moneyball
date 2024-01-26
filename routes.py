@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash, request
 from app import app, db
 from models import User, Game, Pick, Round
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, NewRoundForm, GameForm, GamesForm
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -79,16 +79,16 @@ def admin_home():
     if not current_user.is_admin:
         return redirect(url_for('home'))
 
-    # Fetch all games and picks for admin overview
+    # Fetch all active rounds
+    active_rounds = Round.query.filter_by(is_active=True).all()
+
+    # Fetch all games and picks for admin overview (if needed)
     all_games = Game.query.all()
     all_picks = Pick.query.all()
 
-    # Fetch current round information
-    current_round = Round.query.filter_by(is_active=True).first()
+    return render_template('admin_home.html', active_rounds=active_rounds, all_games=all_games, all_picks=all_picks)
 
-    return render_template('admin_home.html', all_games=all_games, all_picks=all_picks, current_round=current_round)
 
-# Additional routes for admin actions, user actions, and displaying the leaderboard will be added here.
 
 @app.route('/new_round', methods=['GET', 'POST'])
 @login_required
@@ -97,12 +97,41 @@ def new_round():
         return redirect(url_for('home'))
     form = NewRoundForm()
     if form.validate_on_submit():
-        new_round = Round(number=form.round_number.data, start_date=form.start_date.data, end_date=form.end_date.data)
+        new_round = Round(name=form.name.data, is_active=True)
         db.session.add(new_round)
         db.session.commit()
         flash('New round created!', 'success')
         return redirect(url_for('admin_home'))
     return render_template('new_round.html', form=form)
+
+# routes.py
+@app.route('/manage_round/<int:round_id>', methods=['GET', 'POST'])
+@login_required
+def manage_round(round_id):
+    if not current_user.is_admin:
+        return redirect(url_for('home'))
+
+    round = Round.query.get_or_404(round_id)
+    form = GamesForm()
+    
+    if form.validate_on_submit():
+        for game_form in form.games:
+            new_game = Game(
+                round_id=round.id,
+                home_team=game_form.home_team.data,
+                away_team=game_form.away_team.data,
+                game_date=game_form.game_date.data
+            )
+            db.session.add(new_game)
+        db.session.commit()
+        flash('Games added to the round!', 'success')
+
+    # Fetch games for the current round
+    games_in_round = Game.query.filter_by(round_id=round_id).all()
+
+    return render_template('manage_round.html', round=round, form=form, games_in_round=games_in_round)
+
+
 
 @app.route('/leaderboard')
 def leaderboard():

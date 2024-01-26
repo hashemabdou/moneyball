@@ -1,25 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 class="text-center my-4">Admin Dashboard</h2>
-    <div class="admin-actions">
-        <h3>Manage Games</h3>
-        <!-- Add functionality to create, edit, or delete games -->
-        <!-- Example: Link to a page to add a new game -->
-        <a href="{{ url_for('new_round') }}" class="btn btn-primary">Add New Game</a>
+<h2>Admin Dashboard</h2>
 
-        <h3>Current Round Information</h3>
-        <!-- Display information about the current round -->
-        <p>Round Number: {{ current_round.number }}</p>
-        <p>Start Date: {{ current_round.start_date }}</p>
-        <p>End Date: {{ current_round.end_date }}</p>
+<!-- Button to add new round -->
+<a href="{{ url_for('new_round') }}" class="btn btn-primary">Add New Round</a>
 
-        <h3>All User Picks</h3>
-        <!-- Display a list or table of all user picks -->
-        {% for pick in all_picks %}
-            <p>User: {{ pick.user.username }}, Pick: {{ pick.team }}, Round: {{ pick.round }}</p>
-        {% else %}
-            <p>No picks available.</p>
-        {% endfor %}
-    </div>
+<!-- Display active rounds -->
+<h3>Active Rounds</h3>
+<ul>
+    {% for round in active_rounds %}
+    <li><a href="{{ url_for('manage_round', round_id=round.id) }}">{{ round.name }}</a></li>
+    {% endfor %}
+</ul>
+
+<!-- Display all games (if needed) -->
+<h3>All Games</h3>
+<ul>
+    {% for game in all_games %}
+    <li>{{ game.home_team }} vs {{ game.away_team }} on {{ game.game_date.strftime('%Y-%m-%d') }}</li>
+    {% endfor %}
+</ul>
+
+<!-- Display all picks (if needed) -->
+<h3>All Picks</h3>
+<ul>
+    {% for pick in all_picks %}
+    <li>User {{ pick.user_id }} picked {{ pick.team }} for game {{ pick.game_id }}</li>
+    {% endfor %}
+</ul>
+
+<!-- Additional admin actions -->
+<!-- Add here any other admin functionalities you want to include -->
+
 {% endblock %}

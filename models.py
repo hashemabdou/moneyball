@@ -28,8 +28,7 @@ class Pick(db.Model):
 
 class Round(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.Integer, nullable=False)
-    start_date = db.Column(db.DateTime, nullable=False)
-    end_date = db.Column(db.DateTime, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
     games = db.relationship('Game', backref='round', lazy=True)
     is_active = db.Column(db.Boolean, default=True)
