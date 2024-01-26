@@ -1,19 +1,21 @@
 # moneyball
 
 To do:
-
-- underline page you're on in navbar
-- better looking
+issues:
+- the games when created are not being stored in the right database
 
 - fix user dashboard error
-- allow admin to delete/rename round
 - flow after round is created
 
 later:
+- better looking
 - figure out leaderboard sitch
 - say hello, name when logged in 
 
 
+done:
+- allow admin to delete/rename round
+- underline page you're on in navbar
 
 
 

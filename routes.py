@@ -81,14 +81,13 @@ def admin_home():
 
     # Fetch all active rounds
     active_rounds = Round.query.filter_by(is_active=True).all()
+    past_rounds = Round.query.filter_by(is_active=False).all()
 
     # Fetch all games and picks for admin overview (if needed)
     all_games = Game.query.all()
     all_picks = Pick.query.all()
 
-    return render_template('admin_home.html', active_rounds=active_rounds, all_games=all_games, all_picks=all_picks)
-
-
+    return render_template('admin_home.html', active_rounds=active_rounds, past_rounds=past_rounds, all_games=all_games, all_picks=all_picks)
 
 @app.route('/new_round', methods=['GET', 'POST'])
 @login_required
@@ -114,6 +113,7 @@ def manage_round(round_id):
     round = Round.query.get_or_404(round_id)
     form = GamesForm()
     
+    # Handle adding games
     if form.validate_on_submit():
         for game_form in form.games:
             new_game = Game(
@@ -125,6 +125,30 @@ def manage_round(round_id):
             db.session.add(new_game)
         db.session.commit()
         flash('Games added to the round!', 'success')
+
+    # Handle other POST requests (rename, delete, end/reactivate round)
+    if request.method == 'POST':
+        if 'rename_round' in request.form:
+            round.name = request.form['round_name']
+            db.session.commit()
+            flash('Round renamed successfully!', 'success')
+        elif 'delete_round' in request.form:
+            db.session.delete(round)
+            db.session.commit()
+            flash('Round deleted successfully!', 'success')
+            return redirect(url_for('admin_home'))
+
+        if 'toggle_round_status' in request.form:
+            # Toggle round active status based on checkbox
+            if 'end_round' in request.form:
+                round.is_active = False
+                status = 'ended'
+            else:
+                round.is_active = True
+                status = 'reactivated'
+            db.session.commit()
+            flash(f'Round {status} successfully!', 'success')
+            return redirect(url_for('admin_home'))
 
     # Fetch games for the current round
     games_in_round = Game.query.filter_by(round_id=round_id).all()

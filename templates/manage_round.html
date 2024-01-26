@@ -20,6 +20,15 @@
     {{ form.submit }}
 </form>
 
+<!-- Toggle round active status checkbox -->
+<form method="post" id="round-status-form">
+    <input type="hidden" name="toggle_round_status" value="1">
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="end_round" name="end_round" onchange="document.getElementById('round-status-form').submit();" {{ 'checked' if not round.is_active else '' }}>
+        <label class="form-check-label" for="end_round">End Round</label>
+    </div>
+</form>
+
 <!-- Display the list of games added to this round -->
 <h3>Games in This Round</h3>
 <ul>
@@ -27,6 +36,18 @@
     <li>{{ game.home_team }} vs {{ game.away_team }} on {{ game.game_date.strftime('%Y-%m-%d') }}</li>
     {% endfor %}
 </ul>
+<form method="post">
+    <div class="form-group">
+        <label for="round_name">Rename Round</label>
+        <input type="text" class="form-control" id="round_name" name="round_name" value="{{ round.name }}">
+    </div>
+    <button type="submit" class="btn btn-primary" name="rename_round">Rename Round</button>
+</form>
+
+<!-- Delete round button with confirmation -->
+<form method="post" onsubmit="return confirm('Are you sure you want to delete this round?');">
+    <button type="submit" class="btn btn-danger" name="delete_round">Delete Round</button>
+</form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

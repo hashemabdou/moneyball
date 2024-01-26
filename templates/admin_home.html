@@ -14,6 +14,14 @@
     {% endfor %}
 </ul>
 
+<!-- Past Rounds -->
+<h3>Past Rounds</h3>
+<ul>
+    {% for round in past_rounds %}
+    <li><a href="{{ url_for('manage_round', round_id=round.id) }}">{{ round.name }}</a></li>
+    {% endfor %}
+</ul>
+
 <!-- Display all games (if needed) -->
 <h3>All Games</h3>
 <ul>
