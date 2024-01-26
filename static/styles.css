@@ -2,6 +2,10 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.nav-item.active a {
+    text-decoration: underline;
+}
+
 .navbar {
     margin-bottom: 20px;
 }

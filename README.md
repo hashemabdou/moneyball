@@ -2,7 +2,12 @@
 
 To do:
 
-1. Create the frontend templates for the home page, about page, sign up, sign in, user home, and admin home. These templates will be created using HTML and will be styled with CSS to match the modern, soccer-themed design requirements.
+- underline page you're on in navbar
+- better looking
+
+
+
+
 
 2. Implement the backend logic for user authentication. This includes handling the sign-up process by storing user credentials in the database and handling the sign-in process by authenticating users against the stored credentials.
 
@@ -26,16 +31,7 @@ To do:
 
 
 
-
-old stuff:
-you have started the moneyball website:
-
-now, 
-Next, we will implement the frontend templates, styles, and scripts, and complete the backend logic for user authentication, game management, and leaderboard display.
-
-Please note that this is a complex project and the implementation provided here is a high-level overview. A fully working implementation would require more detailed code for each component, including proper form validations, database interactions, user authentication logic, admin functionalities
-
-old instructions: Build a website titled Moneyball. Make sure the code you write has ALL the following elements and ALL the necessary templates. The style should be very clean and modern and be soccer themed. It should look very modern and include creative fun elements that make it look good. The nav bar should have Home, About, and sign in and sign up buttons. The about page should include the rules of the game. The home page for now should say "Welcome to Moneyball", and then include a leaderboard of past winners (will be described later). 
+Build a website titled Moneyball. Make sure the code you write has ALL the following elements and ALL the necessary templates. The style should be very clean and modern and be soccer themed. It should look very modern and include creative fun elements that make it look good. The nav bar should have Home, About, and sign in and sign up buttons. The about page should include the rules of the game. The home page for now should say "Welcome to Moneyball", and then include a leaderboard of past winners (will be described later). 
 
 Once users sign up using username, email and password, that is then stored in the back end. Users can now then sign in using that account using their username and password and once they are signed in, they have their own home page which has the players' current picks, previous round performance, total all-time winnings and progress this round. 
 

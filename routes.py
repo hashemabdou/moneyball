@@ -8,12 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 @app.route('/')
 @app.route('/home')
 def home():
-    if current_user.is_authenticated and current_user.is_admin:
-        return redirect(url_for('admin_home'))
-    elif current_user.is_authenticated:
-        return redirect(url_for('user_home'))
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 @app.route('/about')
 def about():
@@ -38,6 +33,9 @@ def signin():
         user = User.query.filter_by(username=form.username.data).first()
         if user and check_password_hash(user.password, form.password.data):
             login_user(user)
+            # Check if the user is an admin and redirect to admin_home if true
+            if user.is_admin:
+                return redirect(url_for('admin_home'))
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('home'))
         else:
@@ -52,21 +50,27 @@ def signout():
 @app.route('/user_home')
 @login_required
 def user_home():
-    # Fetch user's current picks for the ongoing round
     current_round = Round.query.filter_by(is_active=True).first()
-    current_picks = Pick.query.filter_by(user_id=current_user.id, round=current_round.id).all()
+    previous_performance = None  # Initialize to a default value
+    total_winnings = None        # Initialize to a default value
+    progress_this_round = None   # Initialize to a default value
 
-    # Calculate previous round performance (this is a placeholder logic)
-    previous_round = Round.query.filter(Round.id < current_round.id).order_by(Round.id.desc()).first()
-    previous_picks = Pick.query.filter_by(user_id=current_user.id, round=previous_round.id).all()
-    previous_performance = "Your performance details here"  # Replace with actual logic
+    if current_round:
+        current_picks = Pick.query.filter_by(user_id=current_user.id, round=current_round.id).all()
 
-    # Calculate total all-time winnings (this is a placeholder logic)
-    total_winnings = "Your winnings calculation here"  # Replace with actual logic
+        # Calculate previous round performance (this is a placeholder logic)
+        previous_round = Round.query.filter(Round.id < current_round.id).order_by(Round.id.desc()).first()
+        previous_picks = Pick.query.filter_by(user_id=current_user.id, round=previous_round.id).all()
+        previous_performance = "Your performance details here"  # Replace with actual logic
 
-    # Calculate progress in the current round (this is a placeholder logic)
-    progress_this_round = "Your progress calculation here"  # Replace with actual logic
+        # Calculate total all-time winnings (this is a placeholder logic)
+        total_winnings = "Your winnings calculation here"  # Replace with actual logic
 
+        # Calculate progress in the current round (this is a placeholder logic)
+        progress_this_round = "Your progress calculation here"  # Replace with actual logic
+
+    else:
+        current_picks = []
     return render_template('user_home.html', current_picks=current_picks, previous_performance=previous_performance, total_winnings=total_winnings, progress_this_round=progress_this_round)
 
 @app.route('/admin_home')
@@ -83,7 +87,6 @@ def admin_home():
     current_round = Round.query.filter_by(is_active=True).first()
 
     return render_template('admin_home.html', all_games=all_games, all_picks=all_picks, current_round=current_round)
-
 
 # Additional routes for admin actions, user actions, and displaying the leaderboard will be added here.
 

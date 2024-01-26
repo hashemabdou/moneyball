@@ -14,17 +14,29 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                <li class="nav-item {{ 'active' if request.path == url_for('about') else '' }}"><a class="nav-link" href="{{ url_for('about') }}">Rules</a></li>
                 {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <li class="nav-item {{ is_active('admin_home') }}"><a class="nav-link" href="{{ url_for('admin_home') }}">Dashboard</a></li>
+                    {% endif %}
+                    {% if not current_user.is_admin %}
+                        <li class="nav-item {{ is_active('user_home') }}"><a class="nav-link" href="{{ url_for('user_home') }}">Dashboard</a></li>
+                    {% endif %}
                     <li class="nav-item"><a class="nav-link" href="{{ url_for('signout') }}">Sign Out</a></li>
                 {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('signin') }}">Sign In</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                    <li class="nav-item {{ is_active('signin') }}"><a class="nav-link" href="{{ url_for('signin') }}">Sign In</a></li>
+                    <li class="nav-item {{ is_active('signup') }}"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
                 {% endif %}
             </ul>
         </div>
     </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div class="container mt-4">
         {% block content %}{% endblock %}
     </div>
